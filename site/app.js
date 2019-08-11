@@ -45,7 +45,7 @@ app.get('/mode', function(req, res) {
 
 app.get('/info', function(req, res) {
 
-  logger.debug('called the information endpoint for ' + req.query.id);
+  logger.debug('called the information endpoint: ' + req.query.id || "default user");
 
   var patientdata;
 
