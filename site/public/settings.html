@@ -27,8 +27,8 @@
             <menuitem>information</menuitem></a>
           <a class="dimmed" href="./measurements.html">
             <menuitem>measurements</menuitem></a>
-          <a class="dimmed" href="./jee.html">
-            <menuitem class="dimmed">architecture</menuitem></a>
+          <!-- <a class="dimmed" href="./jee.html">
+            <menuitem class="dimmed">architecture</menuitem></a> -->
           <a class="lit" href="./settings.html">
             <menuitem class="lit">settings</menuitem></a>
         </menu>
@@ -44,18 +44,18 @@
           situations.
         </div>
         <div class="settingstext">
-          By default the app just displays preformatted canned data responses in test mode. You can choose to integrate with either a cobol on Z deployment, or a Java Liberty on OpenShift deployment. These integrations are described in related code
+          By default the app just displays preformatted canned data responses in test mode. You can choose to integrate with either a Node.js or a Java Liberty on OpenShift deployment. These integrations are described in related code
           patterns.
         </div>
 
         <div class="buttons">
           <div id="localbutton" class="settingsbutton settingsbuttonselected" onclick="chooseLocal()">
-            <div class="settingslabel">node.js</div>
+            <div class="settingslabel">in-memory</div>
             <div><img class="settingsicon" src="./images/testlogo.svg" alt=""></div>
           </div>
-          <div id="cobolbutton" class="settingsbutton" onclick="chooseCobol()">
-            <div class="settingslabel">cobol</div>
-            <div><img class="settingsicon" src="./images/zlogo.svg" alt=""></div>
+          <div id="nodebutton" class="settingsbutton" onclick="chooseNode()">
+            <div class="settingslabel">node</div>
+            <div><img class="settingsicon" src="./images/openshiftlogo.svg" alt=""></div>
           </div>
           <div id="javabutton" class="settingsbutton" onclick="chooseJava()">
             <div class="settingslabel">java</div>

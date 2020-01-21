@@ -1,5 +1,5 @@
 var urlfield = document.getElementById('url');
-var cobolbutton = document.getElementById('cobolbutton');
+var nodebutton = document.getElementById('nodebutton');
 var javabutton = document.getElementById('javabutton');
 var localbutton = document.getElementById('localbutton');
 
@@ -11,10 +11,10 @@ var MODE = {
 
 function checkurl() {
   if (validURL(urlfield.value)) {
-    cobolbutton.style.opacity = 1;
+    nodebutton.style.opacity = 1;
     javabutton.style.opacity = 1;
   } else {
-    cobolbutton.style.opacity = 0.3;
+    nodebutton.style.opacity = 0.3;
     javabutton.style.opacity = 0.3;
   }
 
@@ -47,8 +47,8 @@ function getMode() {
           highlightLocal();
           break;
 
-        case MODE.Z:
-          highlightCobol();
+        case MODE.NODE:
+          highlightNode();
           break;
 
         case MODE.OPENSHIFT:
@@ -66,18 +66,19 @@ function getMode() {
 getMode();
 
 function validURL(str) {
-  var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-    '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+  '((([a-z-\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // ip (v4) address
+  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ //port
+  '(\\?[;&amp;a-z\\d%_.~+=-]*)?'+ // query string
+  '(\\#[-a-z\\d_]*)?$','i');
+
   return !!pattern.test(str);
 }
 
 function highlightJava() {
   localbutton.classList.remove("settingsbuttonselected");
-  cobolbutton.classList.remove("settingsbuttonselected");
+  nodebutton.classList.remove("settingsbuttonselected");
   javabutton.classList.add('settingsbuttonselected');
   javabutton.style.opacity = 1;
   setRunMode('Currently reading data from a Java OpenShift microservice');
@@ -92,12 +93,12 @@ function chooseJava() {
   }
 }
 
-function highlightCobol() {
+function highlightNode() {
   localbutton.classList.remove("settingsbuttonselected");
   javabutton.classList.remove("settingsbuttonselected");
-  cobolbutton.classList.add('settingsbuttonselected');
-  cobolbutton.style.opacity = 1;
-  setRunMode('Currently reading data from a Cobol Z application');
+  nodebutton.classList.add('settingsbuttonselected');
+  nodebutton.style.opacity = 1;
+  setRunMode('Currently reading data from a Node.js application');
 }
 
 function setModeOnServer(mode) {
@@ -124,18 +125,18 @@ function setModeOnServer(mode) {
 
 }
 
-function chooseCobol() {
+function chooseNode() {
   if (validURL(urlfield.value)) {
-    setModeOnServer(MODE.Z);
-    highlightCobol();
-    console.log('clicked cobol');
+    setModeOnServer(MODE.NODE);
+    highlightNode();
+    console.log('clicked node');
   }
 }
 
 function highlightLocal() {
   localbutton.classList.add("settingsbuttonselected");
   javabutton.classList.remove("settingsbuttonselected");
-  cobolbutton.classList.remove('settingsbuttonselected');
+  nodebutton.classList.remove('settingsbuttonselected');
   setRunMode('Currently reading data from a Node OpenShift microservice - demo mode');
 }
 
