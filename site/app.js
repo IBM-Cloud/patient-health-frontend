@@ -45,7 +45,11 @@ app.get('/mode', function(req, res) {
 
 app.get('/info', function(req, res) {
 
-  logger.debug('called the information endpoint: ' + req.query.id || "default user");
+  if (req.query.id !== null && req.query.id !== undefined) {
+    logger.debug('called the information endpoint: ' + req.query.id || "default user");
+  } else {
+    logger.debug('called the information endpoint: in-memory data for "ralphd"')
+  }
 
   var patientdata;
 
