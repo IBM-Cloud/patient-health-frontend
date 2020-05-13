@@ -129,9 +129,22 @@ app.get('/measurements', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
+
   logger.debug('called the login endpoint for ' + req.query.username);
+
   var patientLogin = backendApi.patientLogin(API_URL, req.query.username, req.query.password);
+
+  console.log(patientLogin)
+
   patientLogin.then(function(id) {
+
+
+    console.log(id)
+    res.send({
+      id: id
+    });
+
+
   })
 
 })
