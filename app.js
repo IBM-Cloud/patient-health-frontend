@@ -26,6 +26,13 @@ var MODE = {
 var CURRENTMODE = MODE.TEST;
 
 var API_URL = ""
+if (process.env.hasOwnProperty("API_URL")) {
+    API_URL = process.env["API_URL"]
+    if (API_URL.toLowerCase() == "default") {
+        API_URL = "http://patient-health-backend:8080/"
+    }
+    CURRENTMODE = undefined
+}
 
 app.post('/mode', function(req, res) {
   logger.debug('called the mode endpoint with mode: ' + req.query.mode);
@@ -143,4 +150,4 @@ app.use(express.static('./public')); // load UI from public folder
 app.use(bodyParser.json())
 
 app.listen(port);
-logger.debug("Listening on port ", port);
+logger.debug("Listening on port maybe, http://localhost:" +  port.toString(10));
