@@ -33,6 +33,8 @@ if (process.env.hasOwnProperty("API_URL")) {
     }
     CURRENTMODE = undefined
 }
+logger.debug('API_URL:' + API_URL);
+logger.debug('CURRENTMODE:' + CURRENTMODE);
 
 app.post('/mode', function(req, res) {
   logger.debug('called the mode endpoint with mode: ' + req.query.mode);
