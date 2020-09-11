@@ -1,0 +1,15 @@
+#!/bin/bash
+# Configuration variables
+
+# name of the cluster
+cluster_name=
+
+# ibmcloud target -g GROUP
+resource_group=
+
+# name of the project
+project=example-health
+
+# your initials, Mike Oscar Foxtrot
+initials=mof
+

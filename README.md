@@ -2,6 +2,67 @@
 
 Used in IBM Solution Tutorial: [Deploy microservices with OpenShift](https://cloud.ibm.com/docs/solution-tutorials?topic=solution-tutorials-openshift-microservices)
 
+## Scripts to automate the steps in the tutorial
+
+### Step 1 - Create an OpenShift cluster
+Follow the instructions in the tutorial to create the cluster.  Then create and edit the config.sh file used in the rest of the steps.
+
+```
+cd scripts
+cp config.sh.template config.sh
+edit config.sh
+```
+
+### Step 2 - Deploying an application - scripts/020-frontend.sh
+The script will do the following:
+- create a new project
+- create a new application
+- wait for application pods to be replicated
+- expose frontend
+- display routes
+
+In the OpenShift console navigate to Developer/Topology view and verify that the resources created in the script match the expeted results shown in the tutorial.
+
+### Step 3 - Logging and monitoring - scripts/load.sh
+Follow the instructions in the tutorial use scripts/load.sh to generate load
+
+### Step 4 - Metrics and dashboards
+Follow the instructions in the tutorial use scripts/load.sh to generate load
+
+### Step 5 - Scaling the application - scripts/050-autoscale.sh
+The script will do the following:
+- patch deployment config with limmits and requests
+- configure autoscaling
+
+Compare the results with the tutorial expected results.  Check out the Administrator/Installed Operators and the Developer/Topology views.
+
+Generate load using ./scripts/load.sh.  
+
+Back in the OpenShift console verify the patient-health-frontend DeployConfig shows the pod scaling after a few minutes.
+
+### Step 6 - Using the IBM Cloud Operator to create a Cloudant DB - scripts/060-operator-backend.sh
+The script will do the following:
+- create the ibm operator
+- create the secret
+- create the cloudant service using the ibm operator
+- bind the secret
+- create backend
+- wait for secret to exist
+- connect backend to the cloudant using the bound secret
+- connect frontend to backend
+
+Notice the `open http://patient-health-frontend-example-health...` string displayed by the script.  Open the url in the browser.  It can take a few minuts for it to work.  Then try to login as opall/opall logout and then as luet/luet
+
+Back in the OpenShift console compare the results with the tutorial expected results.  Berify the patient-health-backend was created for example
+
+### Step 7, 8, ...
+### Step 11 - Remove resources - scripts/destroy.sh
+
+At any time during the tutorial execute this script to start over.
+
+
+## Background
+
 This project is a patient records user interface for a conceptual health records system. The UI is programmed with open standards JavaScript and modern, universal CSS, and HTML5 Canvas for layout.
 
 The UI is served by a simple Node.JS Express server, and the overall project goals are:
@@ -33,53 +94,11 @@ https://ai.googleblog.com/2018/05/deep-learning-for-electronic-health.html
 
 https://blog.adafruit.com/2018/04/16/machine-learning-helps-to-grok-blood-test-results/
 
-[ concept screenshot to come ]
-
-Example has also heard a lot about cloud computing. There is a lot of traditional code in the mainframe and in classic Java app servers. It works well for now ... but some of the software architects think it may be complimentary to explore some machine learning, and to accelerate development of new user interfaces in the cloud ( either public or private )
-
-
-#### Project aims
-
-In this repo there is a patient user interface. It is written using plain HTML, CSS and JavaScript served from a Node.js microservice. The code runs by default with test/demo data, that doesn't rely on a more sophisticated server. The following installation steps can help you easily deploy this using OpenShift S2I ( source to image ).
-
-### Installation
-
-First, you'll need a cluster. [Follow the directions](https://cloud.ibm.com/docs/containers?topic=containers-openshift_tutorial#openshift_create_cluster) to create a Red Hat OpenShift on IBM Cloud cluster.
-
-Next, you will need a fork of this repository. Scroll back up to the top of this page and click on the Fork button.
-
-![fork](./images/fork.png)
-
-Select your github user name from the pop-up window.
-
-To deploy your just-forked repository, go to the Web Console for your OpenShift cluster and create a project:
-
-![create project](./images/createproject.png)
-
-Click on your new project. You should see a view that looks like this:
-
-![project](./images/projectview.png)
-
-Click on the browse catalog button to see the images available to build with and scroll down to the Node.js image. Click on the 'Node.js' icon.
-
-![node](./images/node.png)
-
-Click through to the second step for configuration, and choose advanced options (a hyperlink on the bottom line).
-
-![config](./images/advanced.png)
-
-You'll see an advanced form like this:
-
-![form](./images/node-advanced-form.png)
-
-Enter your forked Git Repository URL and `/site` for the Context Dir. Click 'Create' at the bottom of the window to build and deploy the application. Scroll through to watch the build deploying:
-
-![build](./images/build.png)
-
-When the build has deployed, click the External Traffic Route and you should see the login screen:
-
-![login](./images/login.png)
-
-You can enter any strings for username and password, for instance test/test... because the app is just running in demo mode.
-
-And you've deployed a Node.js app to Kubernetes using OpenShift S2I.
+### Running locally
+See [Makefile](./Makefile)
+```
+oc expose service patient-health-backend
+export API_URL=http://$(oc get routes patient-health-backend --output json | jq -r '.status.ingress[0].host')/
+echo $API_URL
+npm start
+```
