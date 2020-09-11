@@ -12,6 +12,6 @@ source $MYDIR/share.sh
 HOST=$(frontend_url)
 echo HOST=$HOST
 curl -s $HOST/info
-while true; do
+while sleep 0.2; do
   curl -s $HOST/info
 done
