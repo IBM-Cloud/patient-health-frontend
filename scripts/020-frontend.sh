@@ -20,7 +20,7 @@ oc new-app --name=$frontend centos/nodejs-10-centos7~https://github.com/IBM-Clou
 echo '#' wait for application pods to be replicated
 wait_jq "oc get replicationcontroller --output json" \
   '.items[]|select(.metadata.labels.app == "'$frontend'")|.status.readyReplicas == 1'\
-  90 5
+  300 5
 
 echo '#' expose frontend
 oc expose service $frontend
