@@ -15,7 +15,7 @@ ibmcloud oc cluster config -c $cluster_name --admin
 oc new-project $project
 
 echo '#' create a new application
-oc new-app --name=$frontend centos/nodejs-10-centos7~https://github.com/IBM-Cloud/$frontend
+oc new-app --name=$frontend centos/nodejs-10-centos7~https://github.com/IBM-Cloud/$frontend --as-deployment-config
 
 echo '#' wait for application pods to be replicated
 wait_jq "oc get replicationcontroller --output json" \

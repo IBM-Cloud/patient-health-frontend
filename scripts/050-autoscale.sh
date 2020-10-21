@@ -9,7 +9,7 @@ source $MYDIR/share.sh
 frontend=patient-health-frontend
 oc project $project
 
-echo '#' patch deployment config with limmits and requests
+echo '#' patch deployment config with limits and requests
 kubectl patch deploymentconfig/$frontend --type "json" -p '[{
   "op":"replace",
   "path":"/spec/template/spec/containers/0/resources",
